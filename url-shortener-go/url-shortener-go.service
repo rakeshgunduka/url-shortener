@@ -1,0 +1,15 @@
+[Unit]
+Description=Url Shortener Go
+After=network.target
+
+[Service]
+User=your-username
+Group=your-groupname
+WorkingDirectory=/root/url-shortener/url-shortener-go
+ExecStart=/root/url-shortener/url-shortener-go/.bin/url-shortener.go
+Restart=always
+RestartSec=3
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
