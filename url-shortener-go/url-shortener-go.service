@@ -7,6 +7,7 @@ User=your-username
 Group=your-groupname
 WorkingDirectory=/root/url-shortener/url-shortener-go
 ExecStart=/root/url-shortener/url-shortener-go/.bin/url-shortener.go
+StandardOutput=file:/root/url-shortener/url-shortener-go/logs/output.log
 Restart=always
 RestartSec=3
 LimitNOFILE=4096
