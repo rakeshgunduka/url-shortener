@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"url-shortener-go/config"
+	"url-shortener-go/modules/application"
 	"url-shortener-go/modules/event"
 	"url-shortener-go/modules/shorturl"
 	"url-shortener-go/storage"
@@ -17,6 +18,7 @@ import (
 
 func SetupRoutes(prefix string, app *fiber.App) {
 	logger := utils.CreateLogger("Main")
+	application.SetupRoutes(prefix, app)
 	prefix = prefix + "/api"
 	shorturl.SetupRoutes(prefix, app)
 	event.SetupRoutes(prefix, app)
