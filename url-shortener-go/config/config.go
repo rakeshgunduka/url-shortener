@@ -4,6 +4,7 @@ package config
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
@@ -16,7 +17,8 @@ func LoadConfig() {
 	viper.AddConfigPath("../../config/")
 	viper.AutomaticEnv()
 
-	profile := viper.GetString("PROFILE")
+	profile := os.Getenv("PROFILE")
+	fmt.Printf("Profile: %s\n", profile)
 	if profile == "" {
 		profile = "dev" // Default to dev environment if not set
 		godotenv.Load("./../../config/dev.env")
