@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"url-shortener-go/config"
+	_ "url-shortener-go/docs"
 	"url-shortener-go/modules/application"
 	"url-shortener-go/modules/event"
 	"url-shortener-go/modules/shorturl"

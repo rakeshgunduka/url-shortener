@@ -1,0 +1,131 @@
+info:
+  contact: {}
+paths:
+  /app/{shortUrl}:
+    get:
+      consumes:
+      - application/json
+      description: Redirect to the original URL for a given short URL
+      operationId: redirect-original-url
+      parameters:
+      - description: Short URL
+        in: path
+        name: shortUrl
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "301":
+          description: Moved Permanently
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Redirect to the original URL
+  /app/api/events/:
+    get:
+      description: Get the events from the analytics service
+      operationId: get-events
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get events
+  /app/api/events/{name}:
+    post:
+      consumes:
+      - application/json
+      description: Store the events in the analytics service
+      operationId: store-events
+      parameters:
+      - description: Event name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Store events
+  /app/api/urls/:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all short URLs
+      operationId: get-short-urls
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Retrieve all short URLs
+  /app/api/urls/{shortUrl}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the original URL for a given short URL
+      operationId: get-original-url
+      parameters:
+      - description: Short URL
+        in: path
+        name: shortUrl
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Retrieve the original URL
+  /app/api/urls/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a short URL for the given long URL
+      operationId: create-short-url
+      parameters:
+      - description: Long URL
+        in: body
+        name: url
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a short URL
+swagger: "2.0"

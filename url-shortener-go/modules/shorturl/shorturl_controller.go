@@ -19,6 +19,16 @@ func InitShortUrlController(urlGenService *ShortUrlService) *ShortUrlController 
 	return &ShortUrlController{urlGenService, logger}
 }
 
+// CreateShortUrl creates a short URL for the given long URL.
+// @Summary Create a short URL
+// @Description Create a short URL for the given long URL
+// @ID create-short-url
+// @Accept  json
+// @Produce json
+// @Param   url body string true "Long URL"
+// @Success 200 {object} string
+// @Failure 400 {object} string
+// @Router /app/api/urls/create [post]
 func (uc *ShortUrlController) CreateShortUrl(c *fiber.Ctx) error {
 
 	var requestBody struct {
@@ -54,6 +64,16 @@ func (uc *ShortUrlController) CreateShortUrl(c *fiber.Ctx) error {
 	})
 }
 
+// GetOriginalUrl retrieves the original URL for a given short URL.
+// @Summary Retrieve the original URL
+// @Description Retrieve the original URL for a given short URL
+// @ID get-original-url
+// @Accept  json
+// @Produce json
+// @Param   shortUrl path string true "Short URL"
+// @Success 200 {object} string
+// @Failure 404 {object} string
+// @Router /app/api/urls/{shortUrl} [get]
 func (sc *ShortUrlController) GetOriginalUrl(c *fiber.Ctx) error {
 	shortUrl := c.Params("shortUrl")
 	redisKey := "short-url-" + shortUrl
@@ -90,6 +110,16 @@ func (sc *ShortUrlController) GetOriginalUrl(c *fiber.Ctx) error {
 	})
 }
 
+// RedirectToOriginalUrl redirects to the original URL for a given short URL.
+// @Summary Redirect to the original URL
+// @Description Redirect to the original URL for a given short URL
+// @ID redirect-original-url
+// @Accept  json
+// @Produce json
+// @Param   shortUrl path string true "Short URL"
+// @Success 301 {object} string
+// @Failure 404 {object} string
+// @Router /app/{shortUrl} [get]
 func (sc *ShortUrlController) RedirectToOriginalUrl(c *fiber.Ctx) error {
 	shortUrl := c.Params("shortUrl")
 	redisKey := "short-url-" + shortUrl
@@ -118,6 +148,14 @@ func (sc *ShortUrlController) RedirectToOriginalUrl(c *fiber.Ctx) error {
 	return c.Redirect(urlAlias.URL, fiber.StatusMovedPermanently)
 }
 
+// GetShortUrls retrieves all the short URLs.
+// @Summary Retrieve all short URLs
+// @Description Retrieve all short URLs
+// @ID get-short-urls
+// @Accept  json
+// @Produce json
+// @Success 200 {object} string
+// @Router /app/api/urls/ [get]
 func (uc *ShortUrlController) GetShortUrls(c *fiber.Ctx) error {
 	urls, _ := uc.shortUrlService.GetShortUrls()
 
