@@ -4,20 +4,23 @@ import (
 	"strings"
 	"time"
 	"url-shortener-go/config"
+	"url-shortener-go/modules/event"
 	"url-shortener-go/storage"
 	"url-shortener-go/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/ua-parser/uap-go/uaparser"
 )
 
 type ShortUrlController struct {
+	eventService    *event.EventService
 	shortUrlService *ShortUrlService
 	logger          *utils.Logger
 }
 
-func InitShortUrlController(urlGenService *ShortUrlService) *ShortUrlController {
+func InitShortUrlController(eventService *event.EventService, urlGenService *ShortUrlService) *ShortUrlController {
 	logger := utils.CreateLogger("InitUrlGenController")
-	return &ShortUrlController{urlGenService, logger}
+	return &ShortUrlController{eventService, urlGenService, logger}
 }
 
 // CreateShortUrl creates a short URL for the given long URL.
@@ -124,6 +127,13 @@ func (sc *ShortUrlController) GetOriginalUrl(c *fiber.Ctx) error {
 func (sc *ShortUrlController) RedirectToOriginalUrl(c *fiber.Ctx) error {
 	shortUrl := c.Params("shortUrl")
 	redisKey := "short-url-" + shortUrl
+
+	parser := uaparser.NewFromSaved()
+	eventName := event.EventName(c.Params("name"))
+	userAgent := c.Get("User-Agent")
+	client := parser.Parse(userAgent)
+
+	go sc.eventService.StoreAnalytics(eventName, userAgent, client.Os.Family, client.Device.Brand, client.Device.Family, client.Device.Model)
 
 	cachedResponse, _ := storage.RedisGet(redisKey)
 	if cachedResponse != nil {

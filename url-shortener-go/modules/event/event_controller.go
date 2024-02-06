@@ -8,8 +8,8 @@ import (
 )
 
 type EventsController struct {
-	analyticsService *EventService
-	logger           *utils.Logger
+	eventService *EventService
+	logger       *utils.Logger
 }
 
 type EventName string
@@ -42,7 +42,7 @@ func (ac *EventsController) StoreEvents(c *fiber.Ctx) error {
 	userAgent := c.Get("User-Agent")
 	client := parser.Parse(userAgent)
 
-	go ac.analyticsService.StoreAnalytics(eventName, userAgent, client.Os.Family, client.Device.Brand, client.Device.Family, client.Device.Model)
+	go ac.eventService.StoreAnalytics(eventName, userAgent, client.Os.Family, client.Device.Brand, client.Device.Family, client.Device.Model)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status": "ok",
@@ -58,7 +58,7 @@ func (ac *EventsController) StoreEvents(c *fiber.Ctx) error {
 // @Failure 400 {object} string
 // @Router /app/api/events/ [get]
 func (ac *EventsController) GetEvents(c *fiber.Ctx) error {
-	events := ac.analyticsService.GetAnalytics()
+	events := ac.eventService.GetAnalytics()
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status": "ok",

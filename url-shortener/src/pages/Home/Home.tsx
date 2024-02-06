@@ -1,8 +1,9 @@
 
 import { Box, Button, Container, TextField, Typography } from '@material-ui/core';
 import { AxiosError, AxiosResponse } from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { EventName, storeEvent } from '../../services/events';
 import { createShortUrl } from '../../services/shorturl';
 
 const StyledContainer = styled(Container)`
@@ -49,6 +50,7 @@ const Home = (): React.ReactElement => {
   };
 
   const handleSubmit = () => {
+    storeEvent(EventName.Click);
     setShortUrlGenInProgress(true);
     createShortUrl({ url })
       .then((response: AxiosResponse) => {
@@ -62,6 +64,10 @@ const Home = (): React.ReactElement => {
         setShortUrlGenInProgress(false);
       });
   };
+
+  useEffect(() => {
+    storeEvent(EventName.View);
+  }, []);
 
   return (
     <StyledContainer maxWidth="md">
