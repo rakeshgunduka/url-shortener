@@ -3,6 +3,7 @@ package shorturl
 import (
 	"strings"
 	"time"
+	"url-shortener-go/config"
 	"url-shortener-go/storage"
 	"url-shortener-go/utils"
 
@@ -128,7 +129,7 @@ func (sc *ShortUrlController) RedirectToOriginalUrl(c *fiber.Ctx) error {
 	if cachedResponse != nil {
 		originalURL, ok := cachedResponse["OriginalUrl"].(string)
 		if !ok {
-			return c.Redirect("http://localhost:3000/404")
+			return c.Redirect(config.GetConfigValue("REACT_APP_URL") + "/not-found")
 		}
 		return c.Redirect(originalURL, fiber.StatusMovedPermanently)
 	}
@@ -136,11 +137,11 @@ func (sc *ShortUrlController) RedirectToOriginalUrl(c *fiber.Ctx) error {
 	urlAlias, err := sc.shortUrlService.GetOriginalUrl(shortUrl)
 
 	if err != nil {
-		return c.Redirect("http://localhost:3000/404")
+		return c.Redirect(config.GetConfigValue("REACT_APP_URL") + "/not-found")
 	}
 
 	if urlAlias.Expiry != (time.Time{}) && time.Now().After(urlAlias.Expiry) {
-		return c.Redirect("http://localhost:3000/404")
+		return c.Redirect(config.GetConfigValue("REACT_APP_URL") + "/not-found")
 	}
 
 	storage.RedisSet(redisKey, map[string]interface{}{"OriginalUrl": urlAlias.URL, "Expiry": urlAlias.Expiry}, time.Hour*1)

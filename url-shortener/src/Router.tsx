@@ -16,7 +16,7 @@ function Router(): React.ReactElement {
       element: <Urls />,
     },
     {
-      path: '/404',
+      path: '/not-found',
       element: <UrlNotFound />,
     },
   ]);
