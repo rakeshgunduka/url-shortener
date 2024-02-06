@@ -1,5 +1,6 @@
 {
   "name": "url-shortener",
+  "homepage": "/urlify",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

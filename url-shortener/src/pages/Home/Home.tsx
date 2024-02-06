@@ -71,8 +71,8 @@ const Home = (): React.ReactElement => {
         </Typography>
       </StyledHeader>
       <StyledNavigation>
-        <Button variant="outlined" onClick={() => window.location.href = '/'}>Home</Button>
-        <Button variant="outlined" onClick={() => window.location.href = '/urls'}>All URLS</Button>
+        <Button variant="outlined" onClick={() => window.location.href = '/urlify'}>Home</Button>
+        <Button variant="outlined" onClick={() => window.location.href = '/urlify/urls'}>All URLS</Button>
       </StyledNavigation>
       <StyledBox>
         <TextField

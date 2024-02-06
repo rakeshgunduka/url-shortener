@@ -213,7 +213,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8000",
-	BasePath:         "",
+	BasePath:         "urlify/api",
 	Schemes:          []string{},
 	Title:            "Url Shortener Application Swagger Docs",
 	Description:      "This is the API documentation for Url Shortener Application written in Golang.",

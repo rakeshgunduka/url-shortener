@@ -8,15 +8,15 @@ import Urls from './pages/Urls/Urls';
 function Router(): React.ReactElement {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/urlify',
       element: <Home />,
     },
     {
-      path: '/urls',
+      path: '/urlify/urls',
       element: <Urls />,
     },
     {
-      path: '/not-found',
+      path: '/urlify/not-found',
       element: <UrlNotFound />,
     },
   ]);
